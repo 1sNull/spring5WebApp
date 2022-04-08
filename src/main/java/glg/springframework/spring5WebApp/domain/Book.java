@@ -5,17 +5,26 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ *
+ * @author godhanigopal
+ */
 @Entity
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String title;
     private String isbn;
 
+    @ManyToOne
+    private Publisher publisher;
+
     @ManyToMany
-    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors = new HashSet<>();
 
     public Book() {
@@ -26,10 +35,12 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public Book(String title, String isbn, Set<Author> authors) {
-        this.title = title;
-        this.isbn = isbn;
-        this.authors = authors;
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     public Long getId() {
@@ -70,7 +81,6 @@ public class Book {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", isbn='" + isbn + '\'' +
-                ", authors=" + authors +
                 '}';
     }
 
@@ -82,12 +92,14 @@ public class Book {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         Book book = (Book) o;
+
         return Objects.equals(id, book.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id != null ? id.hashCode() : 0;
     }
 }

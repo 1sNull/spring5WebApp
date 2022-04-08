@@ -3,6 +3,9 @@ package glg.springframework.spring5WebApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author godhanigopal
+ */
 @SpringBootApplication
 public class Spring5WebAppApplication {
 
